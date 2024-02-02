@@ -12,7 +12,7 @@ The following NHN Cloud services' SDKs are included.
 Reference a `nhncloud.gophercloud` package in your code.
 
 ```go
-import "github.com/nhn/nhncloud.gophercloud"
+import "github.com/nhn-cloud/nhncloud.gophercloud"
 ```
 
 Then update your `go.mod`.
@@ -26,5 +26,5 @@ go mod tidy
 Or use the `go get` command to import packages.
 
 ```shell
-go get github.com/nhn/nhncloud.gophercloud
+go get github.com/nhn-cloud/nhncloud.gophercloud
 ```
