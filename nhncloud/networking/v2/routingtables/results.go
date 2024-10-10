@@ -37,6 +37,21 @@ type UpdateResult struct {
 type DeleteResult struct {
 	gophercloud.ErrResult
 }
+type AttachGatewayResult struct {
+	commonResult
+}
+
+type DetachGatewayResult struct {
+	commonResult
+}
+
+type SetAsGatewayResult struct {
+	commonResult
+}
+
+type RelatedGatewaysResult struct {
+	commonResult
+}
 
 type Routingtable struct {
 	// Name Routing table name
@@ -198,4 +213,19 @@ func ExtractRoutingtables(r pagination.Page) ([]Routingtable, error) {
 
 func ExtractRoutingtablesInto(r pagination.Page, v interface{}) error {
 	return r.(RoutingtablePage).Result.ExtractIntoSlicePtr(v, "routingtables")
+}
+
+type Gateway struct {
+	ID   string `json:"id,omitempty"`
+	Type string `json:"type,omitempty"`
+	Name string `json:"name,omitempty"`
+}
+
+func (r RelatedGatewaysResult) Extract() ([]Gateway, error) {
+	var s struct {
+		Gateways []Gateway `json:"gateways"`
+	}
+
+	err := r.ExtractInto(&s)
+	return s.Gateways, err
 }

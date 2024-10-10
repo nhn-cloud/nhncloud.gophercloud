@@ -121,15 +121,9 @@ func Update(c *gophercloud.ServiceClient, routingtableID string, opts UpdateOpts
 		r.Err = err
 		return
 	}
-	h, err := gophercloud.BuildHeaders(opts)
-	if err != nil {
-		r.Err = err
-		return
-	}
 
 	resp, err := c.Put(updateURL(c, routingtableID), b, &r.Body, &gophercloud.RequestOpts{
-		MoreHeaders: h,
-		OkCodes:     []int{200, 201},
+		OkCodes: []int{200, 201},
 	})
 	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)
 	return
@@ -138,6 +132,65 @@ func Update(c *gophercloud.ServiceClient, routingtableID string, opts UpdateOpts
 // Delete accepts a unique ID and deletes the routingtable associated with it.
 func Delete(c *gophercloud.ServiceClient, routingtableID string) (r DeleteResult) {
 	resp, err := c.Delete(deleteURL(c, routingtableID), nil)
+	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)
+	return
+}
+
+type AttachGatewayOptsBuilder interface {
+	ToAttachGatewayMap() (map[string]interface{}, error)
+}
+
+type AttachGatewayOpts struct {
+	GatewayID string `json:"gateway_id" required:"true"`
+}
+
+func (opts AttachGatewayOpts) ToAttachGatewayMap() (map[string]interface{}, error) {
+	b, err := gophercloud.BuildRequestBody(opts, "")
+	if err != nil {
+		return nil, err
+	}
+	return b, nil
+}
+
+// AttachGateway Associates an internet gateway with routing table.
+func AttachGateway(c *gophercloud.ServiceClient, routingtableID string, opts AttachGatewayOptsBuilder) (r AttachGatewayResult) {
+	b, err := opts.ToAttachGatewayMap()
+	if err != nil {
+		r.Err = err
+		return
+	}
+
+	resp, err := c.Put(attachGatewayURL(c, routingtableID), b, &r.Body, &gophercloud.RequestOpts{
+		OkCodes: []int{200},
+	})
+	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)
+	return
+}
+
+// DetachGateway Disassociates an internet gateway from the routing table.
+func DetachGateway(c *gophercloud.ServiceClient, id string) (r DetachGatewayResult) {
+	resp, err := c.Put(detachGatewayURL(c, id), nil, &r.Body, &gophercloud.RequestOpts{
+		OkCodes: []int{200},
+	})
+	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)
+	return
+}
+
+// SetAsDefault Designates a routing table as default routing table.
+func SetAsDefault(c *gophercloud.ServiceClient, id string) (r SetAsGatewayResult) {
+	resp, err := c.Put(setAsDefaultURL(c, id), nil, &r.Body, &gophercloud.RequestOpts{
+		OkCodes: []int{200},
+	})
+	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)
+	return
+}
+
+// RelatedGateways Returns information about the gateways that packets
+// can reach through the routing rules set in the routing table.
+func RelatedGateways(c *gophercloud.ServiceClient, id string) (r RelatedGatewaysResult) {
+	resp, err := c.Get(relatedGatewaysURL(c, id), &r.Body, &gophercloud.RequestOpts{
+		OkCodes: []int{200},
+	})
 	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)
 	return
 }
