@@ -31,17 +31,9 @@ func deleteURL(c *gophercloud.ServiceClient, id string) string {
 }
 
 func attachGatewayURL(c *gophercloud.ServiceClient, id string) string {
-	return resourceURL(c, id, "attach_gateway")
+	return c.ServiceURL("routingtables", id, "attach_gateway")
 }
 
 func detachGatewayURL(c *gophercloud.ServiceClient, id string) string {
-	return resourceURL(c, id, "detach_gateway")
-}
-
-func setAsDefaultURL(c *gophercloud.ServiceClient, id string) string {
-	return resourceURL(c, id, "set_as_default")
-}
-
-func relatedGatewaysURL(c *gophercloud.ServiceClient, id string) string {
-	return resourceURL(c, id, "related_gateways")
+	return c.ServiceURL("routingtables", id, "detach_gateway")
 }

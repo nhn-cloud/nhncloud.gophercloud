@@ -175,22 +175,3 @@ func DetachGateway(c *gophercloud.ServiceClient, id string) (r DetachGatewayResu
 	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)
 	return
 }
-
-// SetAsDefault Designates a routing table as default routing table.
-func SetAsDefault(c *gophercloud.ServiceClient, id string) (r SetAsGatewayResult) {
-	resp, err := c.Put(setAsDefaultURL(c, id), nil, &r.Body, &gophercloud.RequestOpts{
-		OkCodes: []int{200},
-	})
-	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)
-	return
-}
-
-// RelatedGateways Returns information about the gateways that packets
-// can reach through the routing rules set in the routing table.
-func RelatedGateways(c *gophercloud.ServiceClient, id string) (r RelatedGatewaysResult) {
-	resp, err := c.Get(relatedGatewaysURL(c, id), &r.Body, &gophercloud.RequestOpts{
-		OkCodes: []int{200},
-	})
-	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)
-	return
-}
