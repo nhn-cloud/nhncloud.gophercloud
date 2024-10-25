@@ -37,6 +37,21 @@ type UpdateResult struct {
 type DeleteResult struct {
 	gophercloud.ErrResult
 }
+type AttachGatewayResult struct {
+	commonResult
+}
+
+type DetachGatewayResult struct {
+	commonResult
+}
+
+type SetAsGatewayResult struct {
+	commonResult
+}
+
+type RelatedGatewaysResult struct {
+	commonResult
+}
 
 type Routingtable struct {
 	// Name Routing table name

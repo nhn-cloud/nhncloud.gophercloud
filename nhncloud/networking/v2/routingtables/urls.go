@@ -2,7 +2,7 @@ package routingtables
 
 import "github.com/gophercloud/gophercloud"
 
-func resourceURL(c *gophercloud.ServiceClient, id string) string {
+func resourceURL(c *gophercloud.ServiceClient, id string, action ...string) string {
 	return c.ServiceURL("routingtables", id)
 }
 
@@ -28,4 +28,12 @@ func updateURL(c *gophercloud.ServiceClient, id string) string {
 
 func deleteURL(c *gophercloud.ServiceClient, id string) string {
 	return resourceURL(c, id)
+}
+
+func attachGatewayURL(c *gophercloud.ServiceClient, id string) string {
+	return c.ServiceURL("routingtables", id, "attach_gateway")
+}
+
+func detachGatewayURL(c *gophercloud.ServiceClient, id string) string {
+	return c.ServiceURL("routingtables", id, "detach_gateway")
 }
