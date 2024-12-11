@@ -1,8 +1,8 @@
 package testing
 
 import (
+	"github.com/gophercloud/gophercloud/openstack/compute/v2/servers"
 	"github.com/nhn-cloud/nhncloud.gophercloud/nhncloud/compute/v2/extensions/bootfromvolume"
-	"github.com/nhn-cloud/nhncloud.gophercloud/nhncloud/compute/v2/servers"
 )
 
 var BaseCreateOpts = servers.CreateOpts{

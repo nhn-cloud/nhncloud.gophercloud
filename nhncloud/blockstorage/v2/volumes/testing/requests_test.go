@@ -4,10 +4,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/gophercloud/gophercloud/openstack/blockstorage/extensions/volumetenants"
 	"github.com/gophercloud/gophercloud/pagination"
 	th "github.com/gophercloud/gophercloud/testhelper"
 	"github.com/gophercloud/gophercloud/testhelper/client"
-	"github.com/nhn-cloud/nhncloud.gophercloud/nhncloud/blockstorage/extensions/volumetenants"
 	"github.com/nhn-cloud/nhncloud.gophercloud/nhncloud/blockstorage/v2/volumes"
 )
 

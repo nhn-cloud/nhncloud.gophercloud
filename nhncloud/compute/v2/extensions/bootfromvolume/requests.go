@@ -2,7 +2,7 @@ package bootfromvolume
 
 import (
 	"github.com/gophercloud/gophercloud"
-	"github.com/nhn-cloud/nhncloud.gophercloud/nhncloud/compute/v2/servers"
+	"github.com/gophercloud/gophercloud/openstack/compute/v2/servers"
 )
 
 type (
