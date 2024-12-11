@@ -70,7 +70,7 @@ type CreateOptsBuilder interface {
 type CreateOpts struct {
 	Name        string `json:"name"`
 	VpcID       string `json:"vpc_id"`
-	Distributed bool   `json:"distributed,omitempty"`
+	Distributed *bool  `json:"distributed,omitempty"`
 }
 
 // ToRoutingtableCreateMap builds a request body from CreateOpts.
