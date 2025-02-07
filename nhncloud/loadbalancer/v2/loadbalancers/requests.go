@@ -197,6 +197,9 @@ type UpdateOpts struct {
 
 	// Tags is a set of resource tags.
 	Tags *[]string `json:"tags,omitempty"`
+
+	// The type for the LoadBalancer. If omitted, set to shared.
+	LoadbalancerType *string `json:"loadbalancer_type,omitempty"`
 }
 
 // ToLoadBalancerUpdateMap builds a request body from UpdateOpts.
