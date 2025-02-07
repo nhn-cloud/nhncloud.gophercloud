@@ -155,9 +155,6 @@ type UpdateOpts struct {
 	// The administrative state of the Loadbalancer. A valid value is true (UP)
 	// or false (DOWN).
 	AdminStateUp *bool `json:"admin_state_up,omitempty"`
-
-	// The type for the LoadBalancer. If omitted, set to shared.
-	LoadbalancerType *string `json:"loadbalancer_type,omitempty"`
 }
 
 // ToLoadBalancerUpdateMap builds a request body from UpdateOpts.
