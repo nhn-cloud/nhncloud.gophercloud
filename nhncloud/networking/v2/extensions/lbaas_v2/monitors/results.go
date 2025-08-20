@@ -78,6 +78,9 @@ type Monitor struct {
 	// Host header field value to use for status check
 	// When the status check type is set with TCP, value set in this field will be ignored.
 	HostHeader string `json:"host_header"`
+
+	// HealthCheckPort Member port to be health-checked
+	HealthCheckPort int `json:"health_check_port"`
 }
 
 // MonitorPage is the page returned by a pager when traversing over a
