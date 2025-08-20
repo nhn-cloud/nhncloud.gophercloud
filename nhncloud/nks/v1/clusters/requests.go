@@ -86,7 +86,7 @@ type CreateOpts struct {
 
 // ToClusterCreateMap constructs a request body from CreateOpts.
 func (opts CreateOpts) ToClusterCreateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "cluster")
+	return gophercloud.BuildRequestBody(opts, "")
 }
 
 // Create requests the creation of a new Cluster.

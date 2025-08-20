@@ -72,7 +72,7 @@ type CreateOpts struct {
 
 // ToNodegroupCreateMap constructs a request body from CreateOpts.
 func (opts CreateOpts) ToNodegroupCreateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "nodegroup")
+	return gophercloud.BuildRequestBody(opts, "")
 }
 
 // Create requests the creation of a new Nodegroup.
