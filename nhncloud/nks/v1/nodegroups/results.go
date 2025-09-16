@@ -76,11 +76,9 @@ type nodegroupResult struct {
 
 // Extract will get the Nodegroup object out of the nodegroupResult object.
 func (r nodegroupResult) Extract() (*Nodegroup, error) {
-	var s struct {
-		Nodegroup *Nodegroup `json:"nodegroup"`
-	}
-	err := r.ExtractInto(&s)
-	return s.Nodegroup, err
+	var nodegroup Nodegroup
+	err := r.ExtractInto(&nodegroup)
+	return &nodegroup, err
 }
 
 // ExtractNodegroup extracts a nodegroup from a raw response.
