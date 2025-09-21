@@ -118,9 +118,11 @@ type clusterResult struct {
 
 // Extract will get the Cluster object out of the clusterResult object.
 func (r clusterResult) Extract() (*Cluster, error) {
-	var cluster Cluster
-	err := r.ExtractInto(&cluster)
-	return &cluster, err
+	var s struct {
+		Cluster *Cluster `json:"cluster"`
+	}
+	err := r.ExtractInto(&s)
+	return s.Cluster, err
 }
 
 // ExtractCluster extracts a cluster from a raw response.
