@@ -121,6 +121,9 @@ type ResizeOpts struct {
 	// NodeCount is the new number of worker nodes.
 	NodeCount int `json:"node_count" required:"true"`
 
+	// NodeGroup is the nodegroup UUID to resize.
+	NodeGroup string `json:"nodegroup,omitempty"`
+
 	// Options contains resize options.
 	Options *ResizeOptions `json:"options,omitempty"`
 }

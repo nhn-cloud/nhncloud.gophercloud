@@ -109,8 +109,11 @@ type UpgradeOpts struct {
 	// Version is the Kubernetes version to upgrade to.
 	Version string `json:"version" required:"true"`
 
-	// Options contains upgrade options.
-	Options *UpgradeOptions `json:"options,omitempty"`
+	// NumBufferNodes is the number of buffer nodes.
+	NumBufferNodes int `json:"num_buffer_nodes,omitempty"`
+
+	// NumMaxUnavailableNodes is the maximum number of unavailable nodes.
+	NumMaxUnavailableNodes int `json:"num_max_unavailable_nodes,omitempty"`
 }
 
 // ToNodegroupUpgradeMap constructs a request body from UpgradeOpts.
