@@ -2,7 +2,6 @@ package nodegroups
 
 import (
 	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/containerinfra/v1/nodegroups"
 	"github.com/gophercloud/gophercloud/pagination"
 )
 
@@ -121,6 +120,14 @@ func List(c *gophercloud.ServiceClient, clusterID string, opts ListOptsBuilder) 
 	})
 }
 
+type UpdateOp string
+
+const (
+	AddOp     UpdateOp = "add"
+	RemoveOp  UpdateOp = "remove"
+	ReplaceOp UpdateOp = "replace"
+)
+
 // UpdateOptsBuilder allows extensions to add additional parameters to the
 // Update request.
 type UpdateOptsBuilder interface {
@@ -130,7 +137,7 @@ type UpdateOptsBuilder interface {
 // UpdateOpts contains the values used when updating a kubernetes nodegroup.
 type UpdateOpts struct {
 	// Op is the operation to be performed on the nodegroup attribute.
-	Op nodegroups.UpdateOp `json:"op" required:"true"`
+	Op UpdateOp `json:"op" required:"true"`
 
 	// Path is the attribute path of the nodegroup.
 	Path string `json:"path" required:"true"`

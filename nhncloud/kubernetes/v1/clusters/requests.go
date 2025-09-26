@@ -2,7 +2,6 @@ package clusters
 
 import (
 	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/containerinfra/v1/clusters"
 	"github.com/gophercloud/gophercloud/pagination"
 )
 
@@ -210,7 +209,7 @@ type UpdateOptsBuilder interface {
 // UpdateOpts contains the values used when updating a kubernetes cluster.
 type UpdateOpts struct {
 	// Op is the operation to be performed on the cluster attribute.
-	Op clusters.UpdateOp `json:"op" required:"true"`
+	Op UpdateOp `json:"op" required:"true"`
 
 	// Path is the attribute path of the cluster.
 	Path string `json:"path" required:"true"`
