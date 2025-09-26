@@ -28,3 +28,6 @@ func updateURL(c *gophercloud.ServiceClient, clusterID, nodegroupID string) stri
 func deleteURL(c *gophercloud.ServiceClient, clusterID, nodegroupID string) string {
 	return c.ServiceURL(resourcePath, clusterID, nodegroupsPath, nodegroupID)
 }
+func upgradeURL(c *gophercloud.ServiceClient, clusterID, nodegroupID string) string {
+	return c.ServiceURL(resourcePath, clusterID, nodegroupsPath, nodegroupID, "upgrade")
+}

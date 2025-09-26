@@ -173,3 +173,8 @@ type UpdateResult struct {
 type DeleteResult struct {
 	gophercloud.ErrResult
 }
+
+// UpgradeResult is the response from an Upgrade operation.
+type UpgradeResult struct {
+	nodegroupResult
+}

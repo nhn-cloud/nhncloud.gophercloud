@@ -176,3 +176,41 @@ func Delete(client *gophercloud.ServiceClient, clusterID, nodegroupID string) (r
 	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)
 	return
 }
+
+// UpgradeOptsBuilder allows extensions to add additional parameters to the
+// Upgrade request.
+type UpgradeOptsBuilder interface {
+	ToNodegroupUpgradeMap() (map[string]interface{}, error)
+}
+
+// UpgradeOpts contains the values used when upgrading a kubernetes cluster.
+type UpgradeOpts struct {
+	// Version Kubernetes version.
+	Version string `json:"version,omitempty"`
+
+	// NumBufferNodes Number of buffer nodes.
+	NumBufferNodes int `json:"num_buffer_nodes,omitempty"`
+
+	// NumMaxUnavailableNodes Maximum number of unavailable nodes.
+	NumMaxUnavailableNodes int `json:"num_max_unavailable_nodes,omitempty"`
+}
+
+// ToNodegroupUpgradeMap assembles a request body based on the contents of an
+// UpgradeOpts.
+func (opts UpgradeOpts) ToNodegroupUpgradeMap() (map[string]interface{}, error) {
+	return gophercloud.BuildRequestBody(opts, "")
+}
+
+// Upgrade allows a cluster to be upgraded.
+func Upgrade(client *gophercloud.ServiceClient, clusterID, nodegroupID string, opts UpgradeOptsBuilder) (r UpgradeResult) {
+	b, err := opts.ToNodegroupUpgradeMap()
+	if err != nil {
+		r.Err = err
+		return
+	}
+	resp, err := client.Post(upgradeURL(client, clusterID, nodegroupID), b, &r.Body, &gophercloud.RequestOpts{
+		OkCodes: []int{202},
+	})
+	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)
+	return
+}
