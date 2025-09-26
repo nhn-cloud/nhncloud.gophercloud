@@ -12,6 +12,10 @@ func listURL(c *gophercloud.ServiceClient) string {
 	return resourceURL(c)
 }
 
+func listDetailURL(client *gophercloud.ServiceClient) string {
+	return client.ServiceURL("clusters", "detail")
+}
+
 func createURL(c *gophercloud.ServiceClient) string {
 	return resourceURL(c)
 }

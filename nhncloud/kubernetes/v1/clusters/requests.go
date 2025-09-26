@@ -9,7 +9,7 @@ import (
 // CreateOptsBuilder allows extensions to add additional parameters to the
 // Create request.
 type CreateOptsBuilder interface {
-	ToClusterCreateMap() (map[string]interface{}, error)
+	ToClustersCreateMap() (map[string]interface{}, error)
 }
 
 // CreateOpts represents options used to create a kubernetes cluster.
@@ -104,15 +104,15 @@ type Addon struct {
 	Options map[string]interface{} `json:"options,omitempty"`
 }
 
-// ToClusterCreateMap assembles a request body based on the contents of a
+// ToClustersCreateMap assembles a request body based on the contents of a
 // CreateOpts.
-func (opts CreateOpts) ToClusterCreateMap() (map[string]interface{}, error) {
+func (opts CreateOpts) ToClustersCreateMap() (map[string]interface{}, error) {
 	return gophercloud.BuildRequestBody(opts, "")
 }
 
 // Create requests the creation of a new kubernetes cluster.
 func Create(client *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
-	b, err := opts.ToClusterCreateMap()
+	b, err := opts.ToClustersCreateMap()
 	if err != nil {
 		r.Err = err
 		return
@@ -134,7 +134,7 @@ func Get(client *gophercloud.ServiceClient, id string) (r GetResult) {
 // ListOptsBuilder allows extensions to add additional parameters to the
 // List request.
 type ListOptsBuilder interface {
-	ToClusterListQuery() (string, error)
+	ToClustersListQuery() (string, error)
 }
 
 // ListOpts allows the filtering and sorting of paginated collections through
@@ -153,8 +153,8 @@ type ListOpts struct {
 	SortKey string `q:"sort_key"`
 }
 
-// ToClusterListQuery formats a ListOpts into a query string.
-func (opts ListOpts) ToClusterListQuery() (string, error) {
+// ToClustersListQuery formats a ListOpts into a query string.
+func (opts ListOpts) ToClustersListQuery() (string, error) {
 	q, err := gophercloud.BuildQueryString(opts)
 	return q.String(), err
 }
@@ -164,7 +164,7 @@ func (opts ListOpts) ToClusterListQuery() (string, error) {
 func List(c *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pager {
 	url := listURL(c)
 	if opts != nil {
-		query, err := opts.ToClusterListQuery()
+		query, err := opts.ToClustersListQuery()
 		if err != nil {
 			return pagination.Pager{Err: err}
 		}
@@ -175,10 +175,36 @@ func List(c *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pager {
 	})
 }
 
+// ListDetail returns a Pager which allows you to iterate over a collection of
+// clusters with detailed information.
+// It accepts a ListOptsBuilder, which allows you to sort the returned
+// collection for greater efficiency.
+func ListDetail(c *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pager {
+	url := listDetailURL(c)
+	if opts != nil {
+		query, err := opts.ToClustersListQuery()
+		if err != nil {
+			return pagination.Pager{Err: err}
+		}
+		url += query
+	}
+	return pagination.NewPager(c, url, func(r pagination.PageResult) pagination.Page {
+		return ClusterPage{pagination.LinkedPageBase{PageResult: r}}
+	})
+}
+
+type UpdateOp string
+
+const (
+	AddOp     UpdateOp = "add"
+	RemoveOp  UpdateOp = "remove"
+	ReplaceOp UpdateOp = "replace"
+)
+
 // UpdateOptsBuilder allows extensions to add additional parameters to the
 // Update request.
 type UpdateOptsBuilder interface {
-	ToClusterUpdateMap() (map[string]interface{}, error)
+	ToClustersUpdateMap() (map[string]interface{}, error)
 }
 
 // UpdateOpts contains the values used when updating a kubernetes cluster.
@@ -193,9 +219,9 @@ type UpdateOpts struct {
 	Value interface{} `json:"value,omitempty"`
 }
 
-// ToClusterUpdateMap assembles a request body based on the contents of an
+// ToClustersUpdateMap assembles a request body based on the contents of an
 // UpdateOpts.
-func (opts UpdateOpts) ToClusterUpdateMap() (map[string]interface{}, error) {
+func (opts UpdateOpts) ToClustersUpdateMap() (map[string]interface{}, error) {
 	return gophercloud.BuildRequestBody(opts, "")
 }
 
@@ -203,7 +229,7 @@ func (opts UpdateOpts) ToClusterUpdateMap() (map[string]interface{}, error) {
 func Update(client *gophercloud.ServiceClient, id string, opts []UpdateOptsBuilder) (r UpdateResult) {
 	var body []map[string]interface{}
 	for _, opt := range opts {
-		b, err := opt.ToClusterUpdateMap()
+		b, err := opt.ToClustersUpdateMap()
 		if err != nil {
 			r.Err = err
 			return r
@@ -227,7 +253,7 @@ func Delete(client *gophercloud.ServiceClient, id string) (r DeleteResult) {
 // ResizeOptsBuilder allows extensions to add additional parameters to the
 // Resize request.
 type ResizeOptsBuilder interface {
-	ToClusterResizeMap() (map[string]interface{}, error)
+	ToClustersResizeMap() (map[string]interface{}, error)
 }
 
 // ResizeOpts contains the values used when resizing a kubernetes cluster.
@@ -242,15 +268,15 @@ type ResizeOpts struct {
 	NodesToRemove []string `json:"nodes_to_remove,omitempty"`
 }
 
-// ToClusterResizeMap assembles a request body based on the contents of a
+// ToClustersResizeMap assembles a request body based on the contents of a
 // ResizeOpts.
-func (opts ResizeOpts) ToClusterResizeMap() (map[string]interface{}, error) {
+func (opts ResizeOpts) ToClustersResizeMap() (map[string]interface{}, error) {
 	return gophercloud.BuildRequestBody(opts, "")
 }
 
 // Resize allows a cluster to be resized.
 func Resize(client *gophercloud.ServiceClient, id string, opts ResizeOptsBuilder) (r ResizeResult) {
-	b, err := opts.ToClusterResizeMap()
+	b, err := opts.ToClustersResizeMap()
 	if err != nil {
 		r.Err = err
 		return
@@ -265,7 +291,7 @@ func Resize(client *gophercloud.ServiceClient, id string, opts ResizeOptsBuilder
 // UpgradeOptsBuilder allows extensions to add additional parameters to the
 // Upgrade request.
 type UpgradeOptsBuilder interface {
-	ToClusterUpgradeMap() (map[string]interface{}, error)
+	ToClustersUpgradeMap() (map[string]interface{}, error)
 }
 
 // UpgradeOpts contains the values used when upgrading a kubernetes cluster.
@@ -274,15 +300,15 @@ type UpgradeOpts struct {
 	ClusterTemplate string `json:"cluster_template,omitempty"`
 }
 
-// ToClusterUpgradeMap assembles a request body based on the contents of an
+// ToClustersUpgradeMap assembles a request body based on the contents of an
 // UpgradeOpts.
-func (opts UpgradeOpts) ToClusterUpgradeMap() (map[string]interface{}, error) {
+func (opts UpgradeOpts) ToClustersUpgradeMap() (map[string]interface{}, error) {
 	return gophercloud.BuildRequestBody(opts, "")
 }
 
 // Upgrade allows a cluster to be upgraded.
 func Upgrade(client *gophercloud.ServiceClient, id string, opts UpgradeOptsBuilder) (r UpgradeResult) {
-	b, err := opts.ToClusterUpgradeMap()
+	b, err := opts.ToClustersUpgradeMap()
 	if err != nil {
 		r.Err = err
 		return
