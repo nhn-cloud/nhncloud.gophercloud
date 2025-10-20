@@ -10,20 +10,26 @@ import (
 
 // Nodegroup represents a Kubernetes nodegroup in NHN Cloud.
 type Nodegroup struct {
+	// UUID is the UUID of the nodegroup.
+	UUID string `json:"uuid"`
+
+	// Name is the nodegroup name.
+	Name string `json:"name"`
+
 	// ClusterID is the UUID of the cluster this nodegroup belongs to.
 	ClusterID string `json:"cluster_id"`
+
+	// FlavorID is the flavor ID used for the nodegroup.
+	FlavorID string `json:"flavor_id"`
+
+	// UUID is the ID of the nodegroup.
+	ID int `json:"id"`
 
 	// CreatedAt is the date and time when the resource was created.
 	CreatedAt time.Time `json:"created_at"`
 
 	// DockerVolumeSize is the size of the volume to allocate to docker.
 	DockerVolumeSize int `json:"docker_volume_size"`
-
-	// FlavorID is the flavor ID used for the nodegroup.
-	FlavorID string `json:"flavor_id"`
-
-	// ID is the UUID of the nodegroup.
-	ID int `json:"id"`
 
 	// ImageID is the image ID used for the nodegroup.
 	ImageID string `json:"image_id"`
@@ -34,15 +40,6 @@ type Nodegroup struct {
 	// Labels is a set of key=value pairs.
 	Labels map[string]string `json:"labels"`
 
-	// LabelsAdded contains labels that were added compared to cluster template.
-	LabelsAdded map[string]string `json:"labels_added"`
-
-	// LabelsOverridden contains labels that were overridden from cluster template.
-	LabelsOverridden map[string]string `json:"labels_overridden"`
-
-	// LabelsSkipped contains labels that were skipped from cluster template.
-	LabelsSkipped map[string]string `json:"labels_skipped"`
-
 	// Links contains a list of links related to this resource.
 	Links []gophercloud.Link `json:"links"`
 
@@ -51,9 +48,6 @@ type Nodegroup struct {
 
 	// MinNodeCount is the minimum allowed number of nodes.
 	MinNodeCount int `json:"min_node_count"`
-
-	// Name is the nodegroup name.
-	Name string `json:"name"`
 
 	// NodeAddresses contains a list of IP addresses of nodes in this nodegroup.
 	NodeAddresses []string `json:"node_addresses"`
@@ -78,9 +72,6 @@ type Nodegroup struct {
 
 	// UpdatedAt is the date and time when the resource was updated.
 	UpdatedAt time.Time `json:"updated_at"`
-
-	// UUID is the UUID of the nodegroup.
-	UUID string `json:"uuid"`
 
 	// Version is the Kubernetes version of the nodegroup.
 	Version string `json:"version"`

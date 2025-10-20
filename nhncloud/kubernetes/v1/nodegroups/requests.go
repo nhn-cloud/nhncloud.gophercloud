@@ -13,10 +13,6 @@ type CreateOptsBuilder interface {
 
 // CreateOpts represents options used to create a kubernetes nodegroup.
 type CreateOpts struct {
-	// DockerVolumeSize is the size of a volume to allocate to docker for
-	// container/image storage.
-	DockerVolumeSize *int `json:"docker_volume_size,omitempty"`
-
 	// FlavorID is the nova flavor ID to use when launching the nodegroup.
 	FlavorID string `json:"flavor_id,omitempty"`
 
@@ -26,24 +22,11 @@ type CreateOpts struct {
 	// Labels is an arbitrary key=value pair.
 	Labels map[string]string `json:"labels,omitempty"`
 
-	// MaxNodeCount is the maximum allowed number of nodes in the nodegroup.
-	MaxNodeCount *int `json:"max_node_count,omitempty"`
-
-	// MergeLabels indicates whether we want to merge cluster template labels
-	// into nodegroup labels when creating nodegroup.
-	MergeLabels *bool `json:"merge_labels,omitempty"`
-
-	// MinNodeCount is the minimum allowed number of nodes in the nodegroup.
-	MinNodeCount int `json:"min_node_count,omitempty"`
-
 	// Name is the name of the nodegroup.
 	Name string `json:"name" required:"true"`
 
 	// NodeCount is the number of nodes in the nodegroup.
 	NodeCount *int `json:"node_count,omitempty"`
-
-	// Role is the role of the nodegroup (e.g., "worker", "master").
-	Role string `json:"role,omitempty"`
 }
 
 // ToNodegroupCreateMap assembles a request body based on the contents of a

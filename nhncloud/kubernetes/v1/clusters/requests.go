@@ -13,25 +13,14 @@ type CreateOptsBuilder interface {
 
 // CreateOpts represents options used to create a kubernetes cluster.
 type CreateOpts struct {
+	// Name is the name of the cluster.
+	Name string `json:"name,omitempty"`
+
 	// ClusterTemplateID is the UUID of the cluster template.
 	ClusterTemplateID string `json:"cluster_template_id" required:"true"`
 
-	// CreateTimeout is the timeout for cluster creation.
-	CreateTimeout *int `json:"create_timeout,omitempty"`
-
-	// DiscoveryURL is the URL used for cluster node discovery.
-	DiscoveryURL string `json:"discovery_url,omitempty"`
-
-	// DockerVolumeSize is the size of a volume to allocate to docker for
-	// container/image storage.
-	DockerVolumeSize *int `json:"docker_volume_size,omitempty"`
-
 	// FlavorID is the nova flavor ID to use when launching the cluster.
 	FlavorID string `json:"flavor_id,omitempty"`
-
-	// FloatingIPEnabled indicates whether created cluster should create IP
-	// floating IP for every node or not.
-	FloatingIPEnabled *bool `json:"floating_ip_enabled,omitempty"`
 
 	// FixedNetwork is the network the cluster gets fixed IP from.
 	FixedNetwork string `json:"fixed_network,omitempty"`
@@ -46,49 +35,11 @@ type CreateOpts struct {
 	// Labels is an arbitrary key=value pair.
 	Labels map[string]string `json:"labels,omitempty"`
 
-	// MasterCount is the number of master nodes for the cluster.
-	MasterCount *int `json:"master_count,omitempty"`
-
-	// MasterFlavorID is the nova flavor ID to use when launching the master
-	// nodes.
-	MasterFlavorID string `json:"master_flavor_id,omitempty"`
-
-	// MergeLabels indicates whether we want to merge cluster template labels
-	// into cluster labels when creating cluster.
-	MergeLabels *bool `json:"merge_labels,omitempty"`
-
-	// Name is the name of the cluster.
-	Name string `json:"name,omitempty"`
-
 	// NodeCount is the number of worker nodes for the cluster.
 	NodeCount *int `json:"node_count,omitempty"`
 
-	// APIEndpointIPACL contains API endpoint IP access control settings.
-	APIEndpointIPACL *APIEndpointIPACL `json:"api_ep_ipacl,omitempty"`
-
 	// Addons contains addon configurations.
 	Addons []Addon `json:"addons,omitempty"`
-}
-
-// APIEndpointIPACL represents IP access control configuration.
-type APIEndpointIPACL struct {
-	// Enable indicates whether IP access control is enabled.
-	Enable string `json:"enable,omitempty"`
-
-	// Action specifies the access control action (ALLOW/DENY).
-	Action string `json:"action,omitempty"`
-
-	// IPACLTargets contains the list of IP access control targets.
-	IPACLTargets []IPACLTarget `json:"ipacl_targets,omitempty"`
-}
-
-// IPACLTarget represents an IP access control target.
-type IPACLTarget struct {
-	// CidrAddress is the IP address or CIDR range.
-	CidrAddress string `json:"cidr_address"`
-
-	// Description is the description for this IP access control target.
-	Description string `json:"description,omitempty"`
 }
 
 // Addon represents an addon configuration.
@@ -162,24 +113,6 @@ func (opts ListOpts) ToClustersListQuery() (string, error) {
 // kubernetes clusters.
 func List(c *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pager {
 	url := listURL(c)
-	if opts != nil {
-		query, err := opts.ToClustersListQuery()
-		if err != nil {
-			return pagination.Pager{Err: err}
-		}
-		url += query
-	}
-	return pagination.NewPager(c, url, func(r pagination.PageResult) pagination.Page {
-		return ClusterPage{pagination.LinkedPageBase{PageResult: r}}
-	})
-}
-
-// ListDetail returns a Pager which allows you to iterate over a collection of
-// clusters with detailed information.
-// It accepts a ListOptsBuilder, which allows you to sort the returned
-// collection for greater efficiency.
-func ListDetail(c *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pager {
-	url := listDetailURL(c)
 	if opts != nil {
 		query, err := opts.ToClustersListQuery()
 		if err != nil {
@@ -281,38 +214,6 @@ func Resize(client *gophercloud.ServiceClient, id string, opts ResizeOptsBuilder
 		return
 	}
 	resp, err := client.Post(resizeURL(client, id), b, &r.Body, &gophercloud.RequestOpts{
-		OkCodes: []int{202},
-	})
-	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)
-	return
-}
-
-// UpgradeOptsBuilder allows extensions to add additional parameters to the
-// Upgrade request.
-type UpgradeOptsBuilder interface {
-	ToClustersUpgradeMap() (map[string]interface{}, error)
-}
-
-// UpgradeOpts contains the values used when upgrading a kubernetes cluster.
-type UpgradeOpts struct {
-	// ClusterTemplate is the new cluster template ID to upgrade to.
-	ClusterTemplate string `json:"cluster_template,omitempty"`
-}
-
-// ToClustersUpgradeMap assembles a request body based on the contents of an
-// UpgradeOpts.
-func (opts UpgradeOpts) ToClustersUpgradeMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "")
-}
-
-// Upgrade allows a cluster to be upgraded.
-func Upgrade(client *gophercloud.ServiceClient, id string, opts UpgradeOptsBuilder) (r UpgradeResult) {
-	b, err := opts.ToClustersUpgradeMap()
-	if err != nil {
-		r.Err = err
-		return
-	}
-	resp, err := client.Post(upgradeURL(client, id), b, &r.Body, &gophercloud.RequestOpts{
 		OkCodes: []int{202},
 	})
 	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)

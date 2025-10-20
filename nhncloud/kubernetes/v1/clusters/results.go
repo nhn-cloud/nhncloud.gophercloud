@@ -10,6 +10,9 @@ import (
 
 // Cluster represents a Kubernetes cluster in NHN Cloud.
 type Cluster struct {
+	// Name is the cluster name.
+	Name string `json:"name"`
+
 	// APIAddress is the endpoint where the kubernetes API is exposed.
 	APIAddress string `json:"api_address"`
 
@@ -28,9 +31,6 @@ type Cluster struct {
 	// CreatedAt is the date and time when the resource was created.
 	CreatedAt time.Time `json:"created_at"`
 
-	// DiscoveryURL is the URL used for cluster node discovery.
-	DiscoveryURL string `json:"discovery_url"`
-
 	// DockerVolumeSize is the size of the volume to allocate to docker.
 	DockerVolumeSize int `json:"docker_volume_size"`
 
@@ -43,38 +43,14 @@ type Cluster struct {
 	// FlavorID is the flavor ID used for the cluster worker nodes.
 	FlavorID string `json:"flavor_id"`
 
-	// FloatingIPEnabled indicates whether cluster nodes have floating IP.
-	FloatingIPEnabled bool `json:"floating_ip_enabled"`
-
 	// KeyPair is the name of the SSH keypair to configure in cluster servers.
 	KeyPair string `json:"keypair"`
 
 	// Labels is a set of key=value pairs.
 	Labels map[string]string `json:"labels"`
 
-	// LabelsAdded contains labels that were added compared to cluster template.
-	LabelsAdded map[string]string `json:"labels_added"`
-
-	// LabelsOverridden contains labels that were overridden from cluster template.
-	LabelsOverridden map[string]string `json:"labels_overridden"`
-
-	// LabelsSkipped contains labels that were skipped from cluster template.
-	LabelsSkipped map[string]string `json:"labels_skipped"`
-
 	// Links contains a list of links related to this resource.
 	Links []gophercloud.Link `json:"links"`
-
-	// MasterAddresses contains a list of IP addresses of master nodes.
-	MasterAddresses []string `json:"master_addresses"`
-
-	// MasterCount is the number of master nodes.
-	MasterCount int `json:"master_count"`
-
-	// MasterFlavorID is the flavor ID used for the cluster master nodes.
-	MasterFlavorID string `json:"master_flavor_id"`
-
-	// Name is the cluster name.
-	Name string `json:"name"`
 
 	// NodeAddresses contains a list of IP addresses of worker nodes.
 	NodeAddresses []string `json:"node_addresses"`
@@ -102,10 +78,6 @@ type Cluster struct {
 
 	// UUID is the UUID of the cluster.
 	UUID string `json:"uuid"`
-
-	// NKS specific fields
-	// APIEndpointIPACL contains API endpoint IP access control settings.
-	APIEndpointIPACL *APIEndpointIPACL `json:"api_ep_ipacl,omitempty"`
 
 	// Addons contains addon configurations.
 	Addons []Addon `json:"addons,omitempty"`
@@ -201,10 +173,5 @@ type DeleteResult struct {
 
 // ResizeResult is the response from a Resize operation.
 type ResizeResult struct {
-	clusterResult
-}
-
-// UpgradeResult is the response from an Upgrade operation.
-type UpgradeResult struct {
 	clusterResult
 }
