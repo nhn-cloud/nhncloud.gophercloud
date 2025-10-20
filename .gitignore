@@ -3,3 +3,4 @@
 .vscode
 testing_*.coverprofile
 /vendor/
+.DS_Store
