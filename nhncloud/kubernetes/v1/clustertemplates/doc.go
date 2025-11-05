@@ -10,7 +10,7 @@ Example to Create Cluster Template
 	boolTrue := true
 	createOpts := clustertemplates.CreateOpts{
 		Name:                "test-cluster-template",
-		Labels:              map[string]string{},
+		Labels:              map[string]interface{},
 		FixedSubnet:         "",
 		MasterFlavorID:      "",
 		NoProxy:             "10.0.0.0/8,172.0.0.0/8,192.0.0.0/8,localhost",

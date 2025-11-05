@@ -33,7 +33,7 @@ type CreateOpts struct {
 	Keypair string `json:"keypair,omitempty"`
 
 	// Labels is an arbitrary key=value pair.
-	Labels map[string]string `json:"labels,omitempty"`
+	Labels map[string]interface{} `json:"labels,omitempty"`
 
 	// NodeCount is the number of worker nodes for the cluster.
 	NodeCount *int `json:"node_count,omitempty"`

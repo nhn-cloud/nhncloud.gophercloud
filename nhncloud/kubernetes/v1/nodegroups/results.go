@@ -38,7 +38,7 @@ type Nodegroup struct {
 	IsDefault bool `json:"is_default"`
 
 	// Labels is a set of key=value pairs.
-	Labels map[string]string `json:"labels"`
+	Labels map[string]interface{} `json:"labels"`
 
 	// Links contains a list of links related to this resource.
 	Links []gophercloud.Link `json:"links"`

@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/containerinfra/v1/clustertemplates"
 	th "github.com/gophercloud/gophercloud/testhelper"
 	fake "github.com/gophercloud/gophercloud/testhelper/client"
+	"github.com/nhn-cloud/nhncloud.gophercloud/nhncloud/kubernetes/v1/clustertemplates"
 )
 
 const ClusterTemplateResponse = `
@@ -214,7 +214,7 @@ var ExpectedClusterTemplate = clustertemplates.ClusterTemplate{
 	ImageID:             "Fedora-Atomic-27-20180212.2.x86_64",
 	InsecureRegistry:    "",
 	KeyPairID:           "kp",
-	Labels:              map[string]string(nil),
+	Labels:              map[string]interface{}(nil),
 	Links: []gophercloud.Link{
 		{Href: "http://10.63.176.154:9511/v1/clustertemplates/79c0f9e5-93b8-4719-8fab-063afc67bffe", Rel: "self"},
 		{Href: "http://10.63.176.154:9511/clustertemplates/79c0f9e5-93b8-4719-8fab-063afc67bffe", Rel: "bookmark"},
@@ -252,7 +252,7 @@ var ExpectedClusterTemplate_EmptyTime = clustertemplates.ClusterTemplate{
 	ImageID:             "fedora-atomic-latest",
 	InsecureRegistry:    "",
 	KeyPairID:           "testkey",
-	Labels:              map[string]string{},
+	Labels:              map[string]interface{}{},
 	Links: []gophercloud.Link{
 		{Href: "http://65.61.151.130:9511/clustertemplates/472807c2-f175-4946-9765-149701a5aba7", Rel: "bookmark"},
 		{Href: "http://65.61.151.130:9511/v1/clustertemplates/472807c2-f175-4946-9765-149701a5aba7", Rel: "self"},
@@ -449,7 +449,7 @@ var ExpectedUpdateClusterTemplate = clustertemplates.ClusterTemplate{
 	ImageID:             "fedora-atomic-latest",
 	InsecureRegistry:    "",
 	KeyPairID:           "testkey",
-	Labels:              map[string]string{},
+	Labels:              map[string]interface{}{},
 	Links: []gophercloud.Link{
 		{Href: "http://65.61.151.130:9511/v1/clustertemplates/472807c2-f175-4946-9765-149701a5aba7", Rel: "self"},
 		{Href: "http://65.61.151.130:9511/clustertemplates/472807c2-f175-4946-9765-149701a5aba7", Rel: "bookmark"},
@@ -485,7 +485,7 @@ var ExpectedUpdateClusterTemplate_EmptyTime = clustertemplates.ClusterTemplate{
 	ImageID:             "fedora-atomic-latest",
 	InsecureRegistry:    "",
 	KeyPairID:           "testkey",
-	Labels:              map[string]string{},
+	Labels:              map[string]interface{}{},
 	Links: []gophercloud.Link{
 		{Href: "http://65.61.151.130:9511/v1/clustertemplates/472807c2-f175-4946-9765-149701a5aba7", Rel: "self"},
 		{Href: "http://65.61.151.130:9511/clustertemplates/472807c2-f175-4946-9765-149701a5aba7", Rel: "bookmark"},
