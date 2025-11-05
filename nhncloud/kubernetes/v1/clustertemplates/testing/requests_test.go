@@ -3,10 +3,10 @@ package testing
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud/openstack/containerinfra/v1/clustertemplates"
 	"github.com/gophercloud/gophercloud/pagination"
 	th "github.com/gophercloud/gophercloud/testhelper"
 	fake "github.com/gophercloud/gophercloud/testhelper/client"
+	"github.com/nhn-cloud/nhncloud.gophercloud/nhncloud/kubernetes/v1/clustertemplates"
 )
 
 func TestCreateClusterTemplate(t *testing.T) {
@@ -20,7 +20,7 @@ func TestCreateClusterTemplate(t *testing.T) {
 	dockerVolumeSize := 3
 	opts := clustertemplates.CreateOpts{
 		Name:                "kubernetes-dev",
-		Labels:              map[string]string{},
+		Labels:              map[string]interface{}{},
 		FixedSubnet:         "",
 		MasterFlavorID:      "",
 		NoProxy:             "10.0.0.0/8,172.0.0.0/8,192.0.0.0/8,localhost",

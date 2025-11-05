@@ -20,7 +20,7 @@ type CreateOpts struct {
 	ImageID string `json:"image_id,omitempty"`
 
 	// Labels is an arbitrary key=value pair.
-	Labels map[string]string `json:"labels,omitempty"`
+	Labels map[string]interface{} `json:"labels,omitempty"`
 
 	// Name is the name of the nodegroup.
 	Name string `json:"name" required:"true"`
