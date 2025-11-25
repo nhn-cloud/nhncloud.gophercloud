@@ -4,11 +4,15 @@ This is the Go SDK extension for [Gophercloud](https://github.com/gophercloud/go
 
 The following NHN Cloud services' SDKs are included.
 
-* Volume
-* Boot from volume
+* Block Storage
+* Instance
+* Keypair
 * Routing table
 * VPC
 * VPC subnet
+* Load balancer
+* NKS Cluster(Kubernetes)
+* NKS Nodegroup(Kubernetes)
 
 ## How to install
 
