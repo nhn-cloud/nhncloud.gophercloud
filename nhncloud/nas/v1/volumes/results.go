@@ -76,47 +76,47 @@ type Schedule struct {
 	Weekdays   []int  `json:"weekdays"`
 }
 
-type commonVolumeResult struct {
+type commonResult struct {
 	gophercloud.Result
 }
 
-func (r commonVolumeResult) Extract() (*Volume, error) {
+func (r commonResult) Extract() (*Volume, error) {
 	var s Volume
 	err := r.ExtractInto(&s)
 	return &s, err
 }
 
-func (r commonVolumeResult) ExtractInto(v interface{}) error {
+func (r commonResult) ExtractInto(v interface{}) error {
 	return r.Result.ExtractIntoStructPtr(v, "volume")
 }
 
-type CreateVolumeResult struct {
-	commonVolumeResult
+type CreateResult struct {
+	commonResult
 }
 
-type GetVolumeResult struct {
-	commonVolumeResult
+type GetResult struct {
+	commonResult
 }
 
-type UpdateVolumeResult struct {
-	commonVolumeResult
+type UpdateResult struct {
+	commonResult
 }
 
-type DeleteVolumeResult struct {
+type DeleteResult struct {
 	gophercloud.ErrResult
 }
 
-type CreateInterfaceResult struct {
-	gophercloud.Result
+type ConnectInterfaceResult struct {
+	commonResult
 }
 
-func (r CreateInterfaceResult) Extract() (*Interface, error) {
+func (r ConnectInterfaceResult) Extract() (*Interface, error) {
 	var s Interface
 	err := r.ExtractInto(&s)
 	return &s, err
 }
 
-func (r CreateInterfaceResult) ExtractInto(v interface{}) error {
+func (r ConnectInterfaceResult) ExtractInto(v interface{}) error {
 	return r.Result.ExtractIntoStructPtr(v, "interface")
 }
 
@@ -124,21 +124,21 @@ type DeleteInterfaceResult struct {
 	gophercloud.ErrResult
 }
 
-type CreateMirrorResult struct {
-	gophercloud.Result
+type SetReplicationResult struct {
+	commonResult
 }
 
-func (r CreateMirrorResult) Extract() (*Mirror, error) {
+func (r SetReplicationResult) Extract() (*Mirror, error) {
 	var s Mirror
 	err := r.ExtractInto(&s)
 	return &s, err
 }
 
-func (r CreateMirrorResult) ExtractInto(v interface{}) error {
+func (r SetReplicationResult) ExtractInto(v interface{}) error {
 	return r.Result.ExtractIntoStructPtr(v, "volumeMirror")
 }
 
-type DeleteMirrorResult struct {
+type DisableReplicationResult struct {
 	gophercloud.ErrResult
 }
 
@@ -146,16 +146,16 @@ type MirrorStat struct {
 	Status string `json:"status"`
 }
 
-type GetMirrorStatResult struct {
-	gophercloud.Result
+type GetReplicationStatResult struct {
+	commonResult
 }
 
-func (r GetMirrorStatResult) Extract() (*MirrorStat, error) {
+func (r GetReplicationStatResult) Extract() (*MirrorStat, error) {
 	var s MirrorStat
 	err := r.ExtractInto(&s)
 	return &s, err
 }
 
-func (r GetMirrorStatResult) ExtractInto(v interface{}) error {
+func (r GetReplicationStatResult) ExtractInto(v interface{}) error {
 	return r.Result.ExtractIntoStructPtr(v, "volumeMirrorStat")
 }

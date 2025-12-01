@@ -4,11 +4,11 @@ import (
 	"github.com/gophercloud/gophercloud"
 )
 
-type CreateVolumeOptsBuilder interface {
+type CreateOptsBuilder interface {
 	ToVolumeCreateMap() (map[string]interface{}, error)
 }
 
-type CreateVolumeOpts struct {
+type CreateOpts struct {
 	Name           string              `json:"name" required:"true"`
 	Description    string              `json:"description,omitempty"`
 	SizeGb         int                 `json:"sizeGb" required:"true"`
@@ -39,35 +39,35 @@ type ScheduleOpts struct {
 	Weekdays   []int  `json:"weekdays"`
 }
 
-func (opts CreateVolumeOpts) ToVolumeCreateMap() (map[string]interface{}, error) {
+func (opts CreateOpts) ToVolumeCreateMap() (map[string]interface{}, error) {
 	return gophercloud.BuildRequestBody(opts, "volume")
 }
 
-func CreateVolume(client *gophercloud.ServiceClient, opts CreateVolumeOptsBuilder) (r CreateVolumeResult) {
+func Create(client *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
 	b, err := opts.ToVolumeCreateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
 
-	resp, err := client.Post(createVolumeURL(client), b, &r.Body, &gophercloud.RequestOpts{
+	resp, err := client.Post(createURL(client), b, &r.Body, &gophercloud.RequestOpts{
 		OkCodes: []int{201},
 	})
 	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)
 	return
 }
 
-func GetVolume(client *gophercloud.ServiceClient, id string) (r GetVolumeResult) {
-	resp, err := client.Get(getVolumeURL(client, id), &r.Body, nil)
+func Get(client *gophercloud.ServiceClient, id string) (r GetResult) {
+	resp, err := client.Get(getURL(client, id), &r.Body, nil)
 	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)
 	return
 }
 
-type UpdateVolumeOptsBuilder interface {
+type UpdateOptsBuilder interface {
 	ToVolumeUpdateMap() (map[string]interface{}, error)
 }
 
-type UpdateVolumeOpts struct {
+type UpdateOpts struct {
 	Description    *string                   `json:"description,omitempty"`
 	SizeGb         *int                      `json:"sizeGb,omitempty"`
 	ACL            *[]string                 `json:"acl,omitempty"`
@@ -92,48 +92,48 @@ type UpdateScheduleOpts struct {
 	Weekdays   []int  `json:"weekdays"`
 }
 
-func (opts UpdateVolumeOpts) ToVolumeUpdateMap() (map[string]interface{}, error) {
+func (opts UpdateOpts) ToVolumeUpdateMap() (map[string]interface{}, error) {
 	return gophercloud.BuildRequestBody(opts, "volume")
 }
 
-func UpdateVolume(client *gophercloud.ServiceClient, id string, opts UpdateVolumeOptsBuilder) (r UpdateVolumeResult) {
+func Update(client *gophercloud.ServiceClient, id string, opts UpdateOptsBuilder) (r UpdateResult) {
 	b, err := opts.ToVolumeUpdateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	resp, err := client.Patch(updateVolumeURL(client, id), b, &r.Body, &gophercloud.RequestOpts{
+	resp, err := client.Patch(updateURL(client, id), b, &r.Body, &gophercloud.RequestOpts{
 		OkCodes: []int{202},
 	})
 	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)
 	return
 }
 
-func DeleteVolume(client *gophercloud.ServiceClient, id string) (r DeleteVolumeResult) {
-	resp, err := client.Delete(deleteVolumeURL(client, id), nil)
+func Delete(client *gophercloud.ServiceClient, id string) (r DeleteResult) {
+	resp, err := client.Delete(deleteURL(client, id), nil)
 	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)
 	return
 }
 
-type CreateInterfaceOptsBuilder interface {
-	ToInterfaceCreateMap() (map[string]interface{}, error)
+type ConnectInterfaceOptsBuilder interface {
+	ToInterfaceConnectMap() (map[string]interface{}, error)
 }
 
-type CreateInterfaceOpts struct {
+type ConnectInterfaceOpts struct {
 	SubnetID string `json:"subnetId" required:"true"`
 }
 
-func (opts CreateInterfaceOpts) ToInterfaceCreateMap() (map[string]interface{}, error) {
+func (opts ConnectInterfaceOpts) ToInterfaceConnectMap() (map[string]interface{}, error) {
 	return gophercloud.BuildRequestBody(opts, "interface")
 }
 
-func CreateInterface(client *gophercloud.ServiceClient, volumeID string, opts CreateInterfaceOptsBuilder) (r CreateInterfaceResult) {
-	b, err := opts.ToInterfaceCreateMap()
+func ConnectInterface(client *gophercloud.ServiceClient, volumeID string, opts ConnectInterfaceOptsBuilder) (r ConnectInterfaceResult) {
+	b, err := opts.ToInterfaceConnectMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	resp, err := client.Post(createInterfaceURL(client, volumeID), b, &r.Body, &gophercloud.RequestOpts{
+	resp, err := client.Post(connectInterfaceURL(client, volumeID), b, &r.Body, &gophercloud.RequestOpts{
 		OkCodes: []int{201},
 	})
 	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)
@@ -148,11 +148,11 @@ func DeleteInterface(client *gophercloud.ServiceClient, volumeID string, interfa
 	return
 }
 
-type CreateMirrorOptsBuilder interface {
-	ToVolumeMirrorCreateMap() (map[string]interface{}, error)
+type SetMirrorOptsBuilder interface {
+	ToReplicationSetMap() (map[string]interface{}, error)
 }
 
-type CreateMirrorOpts struct {
+type SetReplicationOpts struct {
 	DstRegion   string         `json:"dstRegion" required:"true"`
 	DstTenantID string         `json:"dstTenantId" required:"true"`
 	DstVolume   *DstVolumeOpts `json:"dstVolume" required:"true"`
@@ -168,33 +168,33 @@ type DstVolumeOpts struct {
 	SnapshotPolicy *SnapshotPolicyOpts `json:"snapshotPolicy,omitempty"`
 }
 
-func (opts CreateMirrorOpts) ToVolumeMirrorCreateMap() (map[string]interface{}, error) {
+func (opts SetReplicationOpts) ToReplicationSetMap() (map[string]interface{}, error) {
 	return gophercloud.BuildRequestBody(opts, "volumeMirror")
 }
 
-func CreateMirror(client *gophercloud.ServiceClient, volumeID string, opts CreateMirrorOptsBuilder) (r CreateMirrorResult) {
-	b, err := opts.ToVolumeMirrorCreateMap()
+func SetReplication(client *gophercloud.ServiceClient, volumeID string, opts SetMirrorOptsBuilder) (r SetReplicationResult) {
+	b, err := opts.ToReplicationSetMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	resp, err := client.Post(createMirrorURL(client, volumeID), b, &r.Body, &gophercloud.RequestOpts{
+	resp, err := client.Post(setReplicationURL(client, volumeID), b, &r.Body, &gophercloud.RequestOpts{
 		OkCodes: []int{201},
 	})
 	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)
 	return
 }
 
-func DeleteMirror(client *gophercloud.ServiceClient, volumeID string, mirrorID string) (r DeleteMirrorResult) {
-	resp, err := client.Delete(deleteMirrorURL(client, volumeID, mirrorID), &gophercloud.RequestOpts{
+func DisableReplication(client *gophercloud.ServiceClient, volumeID string, mirrorID string) (r DisableReplicationResult) {
+	resp, err := client.Delete(disableReplicationURL(client, volumeID, mirrorID), &gophercloud.RequestOpts{
 		OkCodes: []int{202},
 	})
 	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)
 	return
 }
 
-func GetMirrorStat(client *gophercloud.ServiceClient, volumeID string, mirrorID string) (r GetMirrorStatResult) {
-	resp, err := client.Get(getMirrorStatURL(client, volumeID, mirrorID), &r.Body, nil)
+func GetReplicationStat(client *gophercloud.ServiceClient, volumeID string, mirrorID string) (r GetReplicationStatResult) {
+	resp, err := client.Get(getReplicationStatURL(client, volumeID, mirrorID), &r.Body, nil)
 	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)
 	return
 }
