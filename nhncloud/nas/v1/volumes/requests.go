@@ -27,7 +27,7 @@ type CreateOpts struct {
 	// Encryption contains encryption configurations.
 	Encryption *EncryptionOpts `json:"encryption,omitempty"`
 
-	// Interfaces contains interface configurations.
+	// Interfaces contains the list of interfaces associated with the NAS volume.
 	Interfaces []*InterfaceOpts `json:"interfaces,omitempty"`
 
 	// MountProtocol contains mount protocol configurations.
