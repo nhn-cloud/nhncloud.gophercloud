@@ -21,7 +21,7 @@ type Volume struct {
 	// SizeGb is the size of the NAS volume in GB.
 	SizeGb int `json:"sizeGb"`
 
-	// ProjectID is the proejct ID where the NAS volume is created.
+	// ProjectID is the project ID where the NAS volume is created.
 	ProjectID string `json:"projectId"`
 
 	// TenantID is the tenant ID where the NAS volume is created.
@@ -150,7 +150,7 @@ type MountProtocol struct {
 
 // SnapshotPolicy represents snapshot policy configuration.
 type SnapshotPolicy struct {
-	// MaxScheduledCount is the maximum number of snaptshots that can be saved
+	// MaxScheduledCount is the maximum number of snapshots that can be saved
 	MaxScheduledCount *int `json:"maxScheduledCount"`
 
 	// ReservePercent is the snapshot capacity ratio.
@@ -192,7 +192,7 @@ type CreateResult struct {
 	commonResult
 }
 
-// GetREsult contains the response body and error from a Get request.
+// GetResult contains the response body and error from a Get request.
 type GetResult struct {
 	commonResult
 }

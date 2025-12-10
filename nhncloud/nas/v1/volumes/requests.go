@@ -51,12 +51,14 @@ type MountProtocolOpts struct {
 
 // SnapshotPolicyOpts represents snapshot policy configuration.
 type SnapshotPolicyOpts struct {
-	// MaxScheduledCount is the maximum number of snaptshots that can be saved
+	// MaxScheduledCount is the maximum number of snapshots that can be saved
 	MaxScheduledCount int `json:"maxScheduledCount,omitempty"`
 
 	// ReservePercent is the snapshot capacity ratio.
-	ReservePercent int           `json:"reservePercent,omitempty"`
-	Schedule       *ScheduleOpts `json:"schedule,omitempty"`
+	ReservePercent int `json:"reservePercent,omitempty"`
+
+	// Schedule contains schedule configurations.
+	Schedule *ScheduleOpts `json:"schedule,omitempty"`
 }
 
 // ScheduleOpts represents schedule configuration.
@@ -133,7 +135,7 @@ type UpdateMountProtocolOpts struct {
 
 // UpdateSnapshotPolicyOpts represents snapshot policy configuration.
 type UpdateSnapshotPolicyOpts struct {
-	// MaxScheduledCount is the maximum number of snaptshots that can be saved
+	// MaxScheduledCount is the maximum number of snapshots that can be saved
 	MaxScheduledCount *int `json:"maxScheduledCount"`
 
 	// ReservePercent is the snapshot capacity ratio.
