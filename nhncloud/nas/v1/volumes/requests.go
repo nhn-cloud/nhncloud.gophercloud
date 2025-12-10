@@ -27,6 +27,9 @@ type CreateOpts struct {
 	// Encryption contains encryption configurations.
 	Encryption *EncryptionOpts `json:"encryption,omitempty"`
 
+	// Interfaces contains interface configurations.
+	Interfaces []*InterfaceOpts `json:"interfaces,omitempty"`
+
 	// MountProtocol contains mount protocol configurations.
 	MountProtocol *MountProtocolOpts `json:"mountProtocol" required:"true"`
 
@@ -34,7 +37,13 @@ type CreateOpts struct {
 	SnapshotPolicy *SnapshotPolicyOpts `json:"snapshotPolicy,omitempty"`
 }
 
-// EncryptionOpts represents encryption configuration./
+// InterfaceOpts represents interface configuration.
+type InterfaceOpts struct {
+	// SubnetID is the ID of the subnet associated with the NAS volume.
+	SubnetID string `json:"subnetId,omitempty"`
+}
+
+// EncryptionOpts represents encryption configuration.
 type EncryptionOpts struct {
 	// Enabled indicates whether to enable encryption settings.
 	Enabled bool `json:"enabled,omitempty"`
