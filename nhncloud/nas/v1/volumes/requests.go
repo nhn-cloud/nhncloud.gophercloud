@@ -61,13 +61,13 @@ type MountProtocolOpts struct {
 // SnapshotPolicyOpts represents snapshot policy configuration.
 type SnapshotPolicyOpts struct {
 	// MaxScheduledCount is the maximum number of snapshots that can be saved
-	MaxScheduledCount int `json:"maxScheduledCount,omitempty"`
+	MaxScheduledCount *int `json:"maxScheduledCount"`
 
 	// ReservePercent is the snapshot capacity ratio.
 	ReservePercent int `json:"reservePercent,omitempty"`
 
 	// Schedule contains schedule configurations.
-	Schedule *ScheduleOpts `json:"schedule,omitempty"`
+	Schedule *ScheduleOpts `json:"schedule"`
 }
 
 // ScheduleOpts represents schedule configuration.
@@ -127,43 +127,10 @@ type UpdateOpts struct {
 	ACL *[]string `json:"acl,omitempty"`
 
 	// MountProtocol contains mount protocol configurations.
-	MountProtocol *UpdateMountProtocolOpts `json:"mountProtocol,omitempty"`
+	MountProtocol *MountProtocolOpts `json:"mountProtocol,omitempty"`
 
 	// SnapshotPolicy contains snapshot policy configurations.
-	SnapshotPolicy *UpdateSnapshotPolicyOpts `json:"snapshotPolicy,omitempty"`
-}
-
-// UpdateMountProtocolOpts represents mount protocol configuration.
-type UpdateMountProtocolOpts struct {
-	// CifsAuthIDs is the list of CIFS authentication IDs.
-	CifsAuthIDs []string `json:"cifsAuthIds,omitempty"`
-
-	// Protocol specifies the protocol when mounting the NAS volume.
-	Protocol string `json:"protocol,omitempty"`
-}
-
-// UpdateSnapshotPolicyOpts represents snapshot policy configuration.
-type UpdateSnapshotPolicyOpts struct {
-	// MaxScheduledCount is the maximum number of snapshots that can be saved
-	MaxScheduledCount *int `json:"maxScheduledCount"`
-
-	// ReservePercent is the snapshot capacity ratio.
-	ReservePercent *int `json:"reservePercent,omitempty"`
-
-	// Schedule contains schedule configurations.
-	Schedule *UpdateScheduleOpts `json:"schedule"`
-}
-
-// UpdateScheduleOpts represents schedule configuration.
-type UpdateScheduleOpts struct {
-	// Time is the snapshot auto-create time.
-	Time string `json:"time"`
-
-	// TimeOffset is the time zone for snapshot auto-create.
-	TimeOffset string `json:"timeOffset"`
-
-	// Weekdays is the days of the week that snapshots are automatically created.
-	Weekdays []int `json:"weekdays"`
+	SnapshotPolicy *SnapshotPolicyOpts `json:"snapshotPolicy,omitempty"`
 }
 
 // ToVolumeUpdateMap assembles a request body based on the contents of an UpdateOpts.
