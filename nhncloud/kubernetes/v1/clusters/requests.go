@@ -48,7 +48,7 @@ type Addon struct {
 	Name string `json:"name"`
 
 	// Version is the addon version.
-	Version string `json:"version"`
+	Version string `json:"version,omitempty"`
 
 	// Options contains addon-specific options.
 	Options map[string]interface{} `json:"options,omitempty"`
