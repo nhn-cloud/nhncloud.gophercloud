@@ -219,3 +219,10 @@ func Resize(client *gophercloud.ServiceClient, id string, opts ResizeOptsBuilder
 	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)
 	return
 }
+
+// GetAddons retrieves the list of installed addons for a cluster.
+func GetAddons(client *gophercloud.ServiceClient, id string) (r GetAddonsResult) {
+	resp, err := client.Get(addonsURL(client, id), &r.Body, nil)
+	_, r.Header, r.Err = gophercloud.ParseResponse(resp, err)
+	return
+}
