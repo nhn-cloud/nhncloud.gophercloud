@@ -7,6 +7,7 @@ The following NHN Cloud services' SDKs are included.
 * Block Storage
 * Instance
 * Keypair
+* Internet gateway
 * Routing table
 * VPC
 * VPC subnet
