@@ -31,3 +31,7 @@ func deleteURL(c *gophercloud.ServiceClient, id string) string {
 func resizeURL(c *gophercloud.ServiceClient, id string) string {
 	return c.ServiceURL(resourcePath, id, "actions", "resize")
 }
+
+func addonsURL(c *gophercloud.ServiceClient, id string) string {
+	return c.ServiceURL(resourcePath, id, "addons")
+}

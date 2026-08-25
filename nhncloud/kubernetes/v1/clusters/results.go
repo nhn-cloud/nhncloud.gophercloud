@@ -175,3 +175,35 @@ type DeleteResult struct {
 type ResizeResult struct {
 	clusterResult
 }
+
+// InstalledAddon represents an installed addon in a cluster.
+type InstalledAddon struct {
+	// Name is the addon name.
+	Name string `json:"name"`
+
+	// Version is the addon version.
+	Version string `json:"version"`
+
+	// Type is the addon type (e.g., "cni", "kube-dns").
+	Type string `json:"type"`
+
+	// Priority is the addon priority.
+	Priority int `json:"priority"`
+
+	// Options contains addon-specific options.
+	Options map[string]interface{} `json:"options"`
+}
+
+// GetAddonsResult is the response from a GetAddons operation.
+type GetAddonsResult struct {
+	gophercloud.Result
+}
+
+// Extract interprets a GetAddonsResult as a slice of InstalledAddon.
+func (r GetAddonsResult) Extract() ([]InstalledAddon, error) {
+	var s struct {
+		Addons []InstalledAddon `json:"addons"`
+	}
+	err := r.ExtractInto(&s)
+	return s.Addons, err
+}
